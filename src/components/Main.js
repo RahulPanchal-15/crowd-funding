@@ -1,6 +1,77 @@
 import React, { Component} from 'react'
 import { Button } from 'react-bootstrap'
 import Modalfund from './Util'
+
+class Main extends Component {
+
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      projectNames: [],
+      projectAcc: props.balance,
+      balance: props.balance,
+      modalShow: false,
+      modalIsSet: false,
+      currentModal: []
+    }
+    this.fundProject = this.props.fundproject.bind(this)
+    // console.log(this.fundProject)
+  }
+
+
+  setModalShow = (s,x,id) => {
+    this.setState({ modalShow: s })
+    this.setState({modalIsSet: s})
+    // console.log("Here")
+    this.setState({currentModal: [x,id+1]})
+  }
+
+
+  render() {
+
+    
+
+    let names = this.props.names.map((x, id) =>
+      <li className="list-group-item d-flex justify-content-between align-items-center"
+        key={id} id={id}>
+        {x}
+        <span className="badge badge-light">
+          <Button variant="primary" onClick={() => this.setModalShow(true,x,id)}>
+            Fund
+          </Button>
+        </span>
+      </li>
+    )
+    return (
+
+      <div id="content" className="mt-3">
+        <br/>
+        <br/>
+        <ul className="list-group">
+          <li className="list-group-item active d-flex justify-content-between align-items-center">Projects that can be crowdfunded:<span className="badge badge-light">{this.props.nProjects}</span></li>
+          {names}
+          {this.state.modalIsSet && 
+          <Modalfund
+            show={this.state.modalShow} 
+            onHide={() => this.setModalShow(false)}
+            projectname = {this.state.currentModal[0]}
+            pid = {this.state.currentModal[1]}
+            balance = {this.state.balance}
+            fundProject = {this.fundProject}
+          />
+          }
+          
+        </ul>
+      </div>
+    );
+  }
+}
+
+export default Main;
+
+
+
 // function onSubmitFn(event,props,textInput){
 //   console.log(props)
 //   event.preventDefault()
@@ -78,72 +149,3 @@ import Modalfund from './Util'
 //     </Modal>
 //   );
 // }
-
-class Main extends Component {
-
-
-  constructor(props) {
-    super(props)
-    this.state = {
-      projectNames: [],
-      projectAcc: props.balance,
-      balance: props.balance,
-      modalShow: false,
-      modalIsSet: false,
-      currentModal: []
-    }
-    this.fundProject = this.props.fundproject.bind(this)
-    // console.log(this.fundProject)
-  }
-
-
-  setModalShow = (s,x,id) => {
-    this.setState({ modalShow: s })
-    this.setState({modalIsSet: true})
-    // console.log("Here")
-    this.setState({currentModal: [x,id+1]})
-  }
-
-
-
-
-  render() {
-
-    
-
-    let names = this.props.names.map((x, id) =>
-      <li className="list-group-item d-flex justify-content-between align-items-center"
-        key={id} id={id}>
-        {x}
-        <span className="badge badge-light">
-          <Button variant="primary" onClick={() => this.setModalShow(true,x,id)}>
-            Fund
-          </Button>
-        </span>
-      </li>
-    )
-
-    return (
-
-      <div id="content" className="mt-3">
-        <ul className="list-group">
-          <li className="list-group-item active d-flex justify-content-between align-items-center">Projects that can be crowdfunded:<span className="badge badge-light">{this.props.nProjects}</span></li>
-          {names}
-          {this.state.modalIsSet && 
-          <Modalfund
-            show={this.state.modalShow} 
-            onHide={() => this.setModalShow(false)}
-            projectname = {this.state.currentModal[0]}
-            pid = {this.state.currentModal[1]}
-            balance = {this.state.balance}
-            fundProject = {this.fundProject}
-          />
-          }
-          
-        </ul>
-      </div>
-    );
-  }
-}
-
-export default Main;
