@@ -1,4 +1,5 @@
 import React, { Component} from 'react'
+import Timer from './Timer'
 // import { Button } from 'react-bootstrap'
 
 
@@ -12,7 +13,6 @@ class Project extends Component {
         return (this.props.contribution/this.props.target)
     }
     
-  
     render() {
       let fundings = this.props.fundings.map((x, id) =>
         <li className="list-group-item d-flex justify-content-between align-items-center"
@@ -27,11 +27,6 @@ class Project extends Component {
       let stylePercentage = {
           width: '50%'
       }
-
-    //   console.log(percentage)
-    //   console.log(style)
-      
-
   
       return (
   
@@ -42,6 +37,7 @@ class Project extends Component {
                 <div className="progress-bar" role="progressbar" style={stylePercentage} aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">50%</div>
             </div>
             <hr/>
+            <h6>Time Remaining        : <Timer startCount = "600"/></h6><br/>
             <h6>Target        : {this.props.target}</h6><br/>
             <h6>Contributions : {this.props.contribution}</h6><br/>
             <h6>Target Reached : {""+this.props.isReached} </h6>
@@ -60,6 +56,12 @@ class Project extends Component {
                 /> */}
                 
             </ul>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
         </div>
       );
     }
