@@ -5,15 +5,31 @@ import Timer from './Timer'
 
 class Project extends Component {
 
-    // constructor(props) {
+
+    // constructor(props){
+      
     //   super(props)
+    //   // this.state = {
+    //   //   time : 0
+    //   // }
+    //   //console.log("In Project Component!")
+    //   //console.log("Props of ProjectComponent : ",this.props)
     // }
 
-    getPercetage = () => {
-        return (this.props.contribution/this.props.target)
-    }
-    
+    // shouldComponentUpdate(nextProps){
+    //   console.log("RE RENDERING PROJECT")
+    //   console.log("PROJECT props",this.props)
+    //   if(nextProps.timeRemaining!==this.props.timeRemaining){
+    //     return true;
+    //   }
+    //   else{
+    //     return false;
+    //   }
+    // }
+
     render() {
+
+      let percentage = this.props.contribution*100/this.props.target
       let fundings = this.props.fundings.map((x, id) =>
         <li className="list-group-item d-flex justify-content-between align-items-center"
           key={id} id={id}>
@@ -25,7 +41,7 @@ class Project extends Component {
       )
 
       let stylePercentage = {
-          width: '50%'
+          width: percentage+"%"
       }
   
       return (
@@ -34,10 +50,13 @@ class Project extends Component {
             <br/>
             <h1><font color="#007bff">{this.props.name}</font></h1><hr/>
             <div className="progress">
-                <div className="progress-bar" role="progressbar" style={stylePercentage} aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">50%</div>
+                <div className="progress-bar" role="progressbar" style={stylePercentage} aria-valuenow= {percentage} aria-valuemin="0" aria-valuemax="100">{percentage}%</div>
             </div>
             <hr/>
-            <h6>Time Remaining        : <Timer startCount = "600"/></h6><br/>
+            {/* <h6>{this.props.timeRemaining}</h6> */}
+            <h6>Time Remaining        :</h6> 
+            <Timer startCount = {this.props.timeRemaining+""}/><br/>
+            {/* <Timer startCount = '10'/><br/> */}
             <h6>Target        : {this.props.target}</h6><br/>
             <h6>Contributions : {this.props.contribution}</h6><br/>
             <h6>Target Reached : {""+this.props.isReached} </h6>
@@ -45,16 +64,6 @@ class Project extends Component {
             <ul className="list-group">
                 <li className="list-group-item active d-flex justify-content-between align-items-center">Funds recieved from:<span className="badge badge-light">{this.props.nfundings}</span></li>
                 {fundings}
-                {/* {this.state.modalIsSet && 
-                <Modalfund
-                show={this.state.modalShow} 
-                onHide={() => this.setModalShow(false)}
-                projectname = {this.state.currentModal[0]}
-                pid = {this.state.currentModal[1]}
-                balance = {this.state.balance}
-                fundProject = {this.fundProject}
-                /> */}
-                
             </ul>
             <br/>
             <br/>
@@ -65,6 +74,12 @@ class Project extends Component {
         </div>
       );
     }
+
+    // componentDidMount(){
+    //   this.setState({time:this.props.timeRemaining})
+    // }
+
+    
 }
   
 export default Project;
