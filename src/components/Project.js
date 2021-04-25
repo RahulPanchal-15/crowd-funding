@@ -48,18 +48,32 @@ class Project extends Component {
   
         <div id="content" className="container-fluid">
             <br/>
-            <h1><font color="#007bff">{this.props.name}</font></h1><hr/>
+            <br/>
+            <h1><font color="#007bff">{this.props.name}</font></h1>
+            <hr/>
             <div className="progress">
                 <div className="progress-bar" role="progressbar" style={stylePercentage} aria-valuenow= {percentage} aria-valuemin="0" aria-valuemax="100">{percentage}%</div>
             </div>
             <hr/>
-            {/* <h6>{this.props.timeRemaining}</h6> */}
-            <h6>Time Remaining        :</h6> 
-            <Timer startCount = {this.props.timeRemaining+""}/><br/>
-            {/* <Timer startCount = '10'/><br/> */}
+            {this.props.isClosed &&
+              <>
+              <h6><font color="Red">Project Closed</font></h6><br/>
+              </>
+            }
+            {!this.props.isClosed &&
+              <>
+              <h6>Time Remaining        :</h6> 
+              <Timer startCount = {(this.props.timeRemaining+1)+""}/><br/>
+              </>
+            }
+            
             <h6>Target        : {this.props.target}</h6><br/>
             <h6>Contributions : {this.props.contribution}</h6><br/>
-            <h6>Target Reached : {""+this.props.isReached} </h6>
+            {this.props.isReached &&
+              <>
+              <h6><font color="Green">TARGET REACHED</font></h6><br/>
+              </>
+            }
             <hr/>
             <ul className="list-group">
                 <li className="list-group-item active d-flex justify-content-between align-items-center">Funds recieved from:<span className="badge badge-light">{this.props.nfundings}</span></li>

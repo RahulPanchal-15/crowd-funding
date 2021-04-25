@@ -86,6 +86,10 @@ class App extends Component {
         let _isReached = await crowdfunding.methods.isTargetReached(id).call()
         //console.log("Is reached: ",_isReached)
         this.setState({projectReached:_isReached})
+
+        let _isClosed = await crowdfunding.methods.isClosed(id).call()
+        //console.log("Is reached: ",_isReached)
+        this.setState({projectClosed:_isClosed})
         
         
       }
@@ -94,7 +98,7 @@ class App extends Component {
         
         let nProjects = await crowdfunding.methods.nProjects().call();
         this.setState({ nProjects });
-        
+
         const ids = [];
         for(var i=1; i<=nProjects; i++){
           ids.push(i);
@@ -112,9 +116,23 @@ class App extends Component {
 
         pAccs = await Promise.all(pAccs)
         
-        this.setState({projectNames: pNames})
-        this.setState({projectAccounts : pAccs})
+        let pClosed = ids.map((id)=> {
+          return (crowdfunding.methods.isClosed(id).call())
+        })
 
+        pClosed = await Promise.all(pClosed)
+        console.log("PClosed : ",pClosed)
+        
+
+        //changed
+        this.setState(
+          {
+            projectNames: pNames,
+            projectAccounts: pAccs,
+            projectStatus: pClosed
+
+          }
+        )
       }
 
     }
@@ -158,7 +176,7 @@ class App extends Component {
   }
 
   createProject = (name,target,aliveFor) => {
-    console.log("IN APP!")
+    //console.log("IN APP!")
     this.state.crowdfunding.events.ProjectCreated({},(error,event)=>{
       console.log("Logging Emitted Event",event)
       this.setState({loading:false})
@@ -170,9 +188,7 @@ class App extends Component {
     .on("error",(error)=>{
       console.log("Error in Emitted Event",error)
     })
-
     
-
     this.setState({ loading: true });
     this.state.crowdfunding.methods.createProject(name,target,aliveFor).send({from:this.state.account,gasPrice:"0x0", gas:210000})
     .on('transactionHash', (hash) => {
@@ -295,11 +311,13 @@ class App extends Component {
       isProject: false,
       projectNames: [],
       projectAccounts: [],
+      projectStatus: [],
       projectId : 0,
       projectName: '',
       projectTarget : 0,
       projectContribution : 0,
       projectReached : false,
+      projectClosed : false,
       nfundings: 0,
       fundings: [],
       loading: true,
@@ -317,10 +335,24 @@ class App extends Component {
     //console.log("RENDERED APP!")
     let content
     if (this.state.loading) {
-      content = <p id="loader" className="text-center">Loading...</p>
+      content = <p id="loader" className="text-center"><br/><br/>Loading...</p>
     } 
     else {
-      if(this.state.isProject){
+      if(this.state.account === this.state.owner){
+
+        content = <>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <p id="adminloader" className="text-center">
+                      Respond to Transaction request that will be issued in every 30 seconds.
+                    </p>
+                  </>
+      }
+      else if(this.state.isProject){
         content = <Project
                       name = {this.state.projectName}
                       id = {this.state.projectId}
@@ -329,13 +361,15 @@ class App extends Component {
                       nfundings = {this.state.nfundings}
                       fundings = {this.state.fundings}
                       isReached = {this.state.projectReached}
+                      isClosed  = {this.state.projectClosed}
                       timeRemaining = {this.state.time}
                   />
       }      
       else{
         content = <Main 
                     names={this.state.projectNames} 
-                    accs={this.state.projectAccounts} 
+                    accs={this.state.projectAccounts}
+                    status={this.state.projectStatus} 
                     nprojects = {this.state.nProjects}
                     fundproject = {this.fundProject}
                     balance = {this.state.balance} 

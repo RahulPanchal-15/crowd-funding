@@ -27,22 +27,42 @@ class Main extends Component {
     this.setState({currentModal: [x,id+1]})
   }
 
+  getlist = (x,id,isClosed) => {
+    if(isClosed){
+      return (
+        <li className="list-group-item list-group-item-light d-flex justify-content-between align-items-center"
+          key={id} id={id}>
+          {x}
+          <span className="badge badge-danger" data-toggle="tooltip" data-placement="bottom" title="Project is unavailable for funding.">
+            <Button disabled variant="danger"  onClick={() => this.setModalShow(true,x,id)}>
+              Closed
+            </Button>
+          </span>
+        </li>
+      )
+    }
+    else{
+      return (
+        <li className="list-group-item d-flex justify-content-between align-items-center"
+          key={id} id={id}>
+        {x}
+          <span className="badge badge-light">
+            <Button variant="primary" onClick={() => this.setModalShow(true,x,id)}>
+              Fund
+            </Button>
+          </span>
+        </li>
+      )
+
+    }
+
+  }
 
   render() {
-
-    
-
     let names = this.props.names.map((x, id) =>
-      <li className="list-group-item d-flex justify-content-between align-items-center"
-        key={id} id={id}>
-        {x}
-        <span className="badge badge-light">
-          <Button variant="primary" onClick={() => this.setModalShow(true,x,id)}>
-            Fund
-          </Button>
-        </span>
-      </li>
+      this.getlist(x,id,this.props.status[id])
     )
+
     return (
 
       <div id="content" className="mt-3">

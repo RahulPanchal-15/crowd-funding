@@ -30,7 +30,7 @@ class Navbar extends Component {
                         >
                         Create a Project
                         </button>
-                        <span className="badge badge-light">{this.props.account}</span>
+                        {/* {this.props.account} */}
                     </li>
                 </ul>
             </nav>
