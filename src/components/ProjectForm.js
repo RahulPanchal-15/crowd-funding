@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { InputGroup } from 'react-bootstrap'
 import { Modal, Button, Form } from 'react-bootstrap'
+import eth from '../eth-logo.png'
 
 export default class ProjectForm extends Component {
 
@@ -68,8 +69,8 @@ export default class ProjectForm extends Component {
                             <InputGroup.Append>
                             <div className="input-group-append">
                                 <div className="input-group-text">
-                                    {/* <img src={dai} height='32' alt=""/> */}
-                                    &nbsp;&nbsp;&nbsp; ether
+                                    <img src={eth} height='24' alt=""/>
+                                     {/* ether */}
                                     </div>
                             </div>
                             </InputGroup.Append>

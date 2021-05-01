@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import { Modal, Button } from 'react-bootstrap'
-
+import eth from '../eth-logo.png'
 export default class Modalfund extends Component{
 
   constructor(props){
@@ -50,8 +50,8 @@ export default class Modalfund extends Component{
             required />
           <div className="input-group-append">
             <div className="input-group-text">
-              {/* <img src={dai} height='32' alt=""/> */}
-                      &nbsp;&nbsp;&nbsp; ether
+                      <img src={eth} height='24' alt=""/>
+                      
                     </div>
           </div>
         </div>
