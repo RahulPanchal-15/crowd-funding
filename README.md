@@ -7,6 +7,8 @@ If project is unable to reach the target within the given time period all funds 
 If project is successfull, then funds will be transferred to the fundraisers account.
 
 
+### Currently working on updating the smart contract.
+
 ### Run Instructions
 
 * Install Node
