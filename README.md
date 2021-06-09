@@ -1,7 +1,5 @@
 # crowd-funding
 
-## Rahul Panchal | B2 - 1911097 | RDBMS | KJSCE
-
 
 This is an Ethereum based project.
 You can create fundraisers using an Ethereum account and can recieve funds from other ethereum accounts.
